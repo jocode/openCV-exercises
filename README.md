@@ -1,2 +1,5 @@
-# openCV-exercises
-Este repositorio contiene algunos ejemplos realizado con la librería openCV en pyhton
+# Ejercicios en OpenCV con python
+
+Este repositorio contiene ejercicios realizados con la librería openCV en pyhton
+
+- Actividad 1 [Template Matching](actividad_1/)
