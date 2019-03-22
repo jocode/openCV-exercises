@@ -7,8 +7,18 @@ imagen = str(raw_input('Ingrese el nombre de la imagen plantilla (.jpg): '))
 
 # Leemos las dos imágenes, la original y la plantilla a escala de grises (0)
 origin_color = cv2.imread('original.jpg', 1)
+# La imagen en blanco y negro
 origin = cv2.cvtColor(origin_color, cv2.COLOR_BGR2GRAY)
-template = cv2.imread(imagen+'.jpg', 0)
+template_color = cv2.imread(imagen+'.jpg', 1)
+template = cv2.cvtColor(template_color, cv2.COLOR_BGR2GRAY)
+
+# Defino una nueva imagen de 3 canales a blanco y negro para el la región de coincidencia
+template_layers = template_color.copy()
+# A cada capa le asigno blanco y negro
+template_layers[:,:,0] = template # Capa B
+template_layers[:,:,1] = template # Capa G 
+template_layers[:,:,2] = template # Capa R
+# Como ya tengo una imagen a blanco y negro de 3 canales, la puedo copiar en la imagen original que es color y tiene 3 canales
 
 # Muestro las propiedades de la imagen origen
 print("Dimensiones Original: ", origin.shape)
@@ -47,6 +57,8 @@ for x in range(0, origin.shape[0], size_x):
 			print('y ', y, ' y1 ', y1)
 			print('Suma pixeles ', suma_pix)
 
+			# Le asigno a la imagen original, la Región de coincidencia de 3 canales a blanco y negro
+			origin_color[x:x1, y:y1] = template_layers
 			# Dibujo un rectangulo en coordenadas (x, y) punto superior, (x1, y1) punto inferior, color rojo y un grosor de 3 px
 			cv2.rectangle(origin_color, (x, y), (x1, y1), (0, 0, 255), 2)
 			cv2.imshow('ROI MATCH', ROI)
